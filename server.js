@@ -8,6 +8,7 @@ const wishlistRoutes = require('./routes/wishlistRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const addressRoutes = require('./routes/addressRoutes');
+const { startStockRestoreCron } = require('./utils/stockRestoreCron');
 
 const app = express();
 
@@ -36,9 +37,41 @@ require('./model/Order');
 require('./model/OrderItem');
 require('./model/Address');
 
+// Safely add new columns if they don't already exist (avoids alter:true index explosion)
+async function addMissingColumns() {
+  const qi = sequelize.getQueryInterface();
+
+  const productCols = await qi.describeTable('Products').catch(() => ({}));
+  if (!productCols.reserveStock) {
+    await sequelize.query(
+      "ALTER TABLE `Products` ADD COLUMN `reserveStock` INT NOT NULL DEFAULT 0"
+    );
+    console.log('[MIGRATE] Added Products.reserveStock');
+  }
+
+  const orderCols = await qi.describeTable('Orders').catch(() => ({}));
+  if (!orderCols.failedAt) {
+    await sequelize.query(
+      "ALTER TABLE `Orders` ADD COLUMN `failedAt` DATETIME NULL"
+    );
+    console.log('[MIGRATE] Added Orders.failedAt');
+  }
+
+  // Ensure all ENUM values exist on Orders.status
+  await sequelize.query(
+    "ALTER TABLE `Orders` MODIFY COLUMN `status` ENUM('awaiting_payment','pending','payment_failed','processing','completed','cancelled') NOT NULL DEFAULT 'awaiting_payment'"
+  ).catch(err => console.warn('[MIGRATE] Could not update Orders.status ENUM:', err.message));
+}
+
 // Sync database and start server
-sequelize.sync({ alter: true }).then(async () => {
+sequelize.sync().then(async () => {
   console.log('Database synced');
+
+  // Add new columns without touching existing indexes
+  await addMissingColumns();
+
+  // Start background cron — restores reserve stock after 10 min
+  startStockRestoreCron();
 
   // Seed default admin if none exists
   const adminCount = await Admin.count();
@@ -58,3 +91,4 @@ sequelize.sync({ alter: true }).then(async () => {
 }).catch(err => {
   console.error("Failed to sync database", err);
 });
+
