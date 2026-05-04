@@ -3,17 +3,9 @@ const Admin = require('../model/Admin');
 const { Op } = require('sequelize');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer');
+const { sendOTPEmail } = require('../utils/emailHelper');
 const fs = require('fs');
 const path = require('path');
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
 
@@ -34,22 +26,8 @@ exports.sendOtp = async (req, res) => {
       await user.save();
     }
 
-    // Send OTP via email
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'AURA - Secure Login Code',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #0f172a;">AURA Secure Access</h2>
-          <p>Your one-time password (OTP) for login is:</p>
-          <h1 style="color: #059669; font-size: 32px; letter-spacing: 4px;">${otp}</h1>
-          <p>This code is valid for 5 minutes. Do not share it with anyone.</p>
-        </div>
-      `
-    };
-
-    await transporter.sendMail(mailOptions);
+    // Send OTP via email using the utility
+    await sendOTPEmail(email, otp);
     
     console.log(`[DEVELOPMENT] Email sent to ${email} with OTP: ${otp}`);
 
@@ -106,21 +84,36 @@ exports.googleAuth = async (req, res) => {
     }
 
     const email = decoded.email;
-    const name = decoded.name;
+    // Extract name with multiple fallbacks
+    const googleName = decoded.name || decoded.given_name || (decoded.family_name ? `${decoded.given_name} ${decoded.family_name}` : null);
     const profilePicture = decoded.picture;
+
+    // Use email prefix as final fallback for name
+    const finalName = googleName || email.split('@')[0];
+
+    console.log(`[DEBUG] Google Auth Payload:`, JSON.stringify(decoded, null, 2));
 
     let user = await User.findOne({ where: { email } });
     if (!user) {
-      user = await User.create({ email, name, profilePicture });
+      user = await User.create({ 
+        email, 
+        name: finalName,
+        profilePicture 
+      });
+      console.log(`[DEBUG] Created new user: ${user.email} with name: ${user.name}`);
     } else {
-      if (!user.name && name) user.name = name;
+      // Always sync name if it's generic or missing
+      if (!user.name || user.name === "User" || user.name === "Member") {
+        user.name = finalName;
+      }
       
-      // Only update profile picture from Google if the user hasn't explicitly uploaded a custom one
-      if (profilePicture && (!user.profilePicture || !user.profilePicture.includes('/uploads/avatar/'))) {
+      // Update profile picture if missing or not a custom upload
+      if (profilePicture && (!user.profilePicture || !user.profilePicture.includes('/uploads/'))) {
         user.profilePicture = profilePicture;
       }
       
       await user.save();
+      console.log(`[DEBUG] Synced existing user: ${user.email} with name: ${user.name}`);
     }
 
     const localToken = jwt.sign(

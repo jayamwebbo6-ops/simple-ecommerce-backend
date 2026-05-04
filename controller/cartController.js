@@ -10,18 +10,34 @@ exports.addToCart = async (req, res) => {
       return res.status(400).json({ message: "Product ID is required" });
     }
 
+    const product = await Product.findByPk(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
     let cartItem = await Cart.findOne({
       where: { UserId: userId, ProductId: productId }
     });
 
+    const requestedQuantity = parseInt(quantity, 10);
+    const existingQuantity = cartItem ? cartItem.quantity : 0;
+    const totalRequestedQuantity = existingQuantity + requestedQuantity;
+
+    if (totalRequestedQuantity > product.stock) {
+      return res.status(400).json({ 
+        message: `Only ${product.stock} units available in stock. You already have ${existingQuantity} in cart.`,
+        availableStock: product.stock 
+      });
+    }
+
     if (cartItem) {
-      cartItem.quantity += parseInt(quantity, 10);
+      cartItem.quantity = totalRequestedQuantity;
       await cartItem.save();
     } else {
       cartItem = await Cart.create({
         UserId: userId,
         ProductId: productId,
-        quantity: parseInt(quantity, 10)
+        quantity: requestedQuantity
       });
     }
 
@@ -40,7 +56,7 @@ exports.getCart = async (req, res) => {
       include: [
         {
           model: Product,
-          attributes: ['id', 'name', 'sellingPrice', 'originPrice', 'image', 'status']
+          attributes: ['id', 'name', 'sellingPrice', 'originPrice', 'image', 'status', 'stock']
         }
       ]
     });
@@ -79,9 +95,20 @@ exports.updateQuantity = async (req, res) => {
       return res.status(400).json({ message: "Quantity must be at least 1" });
     }
 
-    const cartItem = await Cart.findOne({ where: { id, UserId: userId } });
+    const cartItem = await Cart.findOne({ 
+      where: { id, UserId: userId },
+      include: [Product]
+    });
+
     if (!cartItem) {
       return res.status(404).json({ message: "Item not found in cart" });
+    }
+
+    if (parseInt(quantity, 10) > cartItem.Product.stock) {
+      return res.status(400).json({ 
+        message: `Only ${cartItem.Product.stock} units available in stock.`,
+        availableStock: cartItem.Product.stock
+      });
     }
 
     cartItem.quantity = parseInt(quantity, 10);
