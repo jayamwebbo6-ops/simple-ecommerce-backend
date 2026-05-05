@@ -55,7 +55,6 @@ exports.checkout = async (req, res) => {
 
     await OrderItem.bulkCreate(orderItemsData, { transaction });
 
-    // Clear cart
     await Cart.destroy({ where: { UserId: userId }, transaction });
 
     await transaction.commit();
