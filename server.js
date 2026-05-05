@@ -59,8 +59,15 @@ async function addMissingColumns() {
 
   // Ensure all ENUM values exist on Orders.status
   await sequelize.query(
-    "ALTER TABLE `Orders` MODIFY COLUMN `status` ENUM('awaiting_payment','pending','payment_failed','processing','completed','cancelled') NOT NULL DEFAULT 'awaiting_payment'"
+    "ALTER TABLE `Orders` MODIFY COLUMN `status` ENUM('awaiting_payment','confirmed','shipped','delivered','cancelled','payment_failed') NOT NULL DEFAULT 'awaiting_payment'"
   ).catch(err => console.warn('[MIGRATE] Could not update Orders.status ENUM:', err.message));
+
+  // Proactive Fix: Update any existing "empty" statuses (caused by previous ENUM failure) to 'confirmed'
+  await sequelize.query(
+    "UPDATE `Orders` SET `status` = 'confirmed' WHERE `status` = '' OR `status` IS NULL"
+  ).then(([result]) => {
+    if (result.affectedRows > 0) console.log(`[MIGRATE] Fixed ${result.affectedRows} orders with empty status.`);
+  }).catch(err => console.warn('[MIGRATE] Could not fix existing statuses:', err.message));
 }
 
 // Sync database and start server
