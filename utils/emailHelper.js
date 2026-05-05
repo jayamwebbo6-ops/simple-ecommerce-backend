@@ -130,9 +130,38 @@ const sendAdminOrderNotificationEmail = async (adminEmail, order, items, user) =
   return sendEmail(adminEmail, subject, html);
 };
 
+const sendAdminPasswordResetEmail = async (to, otp) => {
+  const subject = 'AURA ADMIN - Password Reset Code';
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #0f172a;">AURA Admin Secure Access</h2>
+      <p>Your one-time password (OTP) for resetting your admin password is:</p>
+      <h1 style="color: #059669; font-size: 32px; letter-spacing: 4px;">${otp}</h1>
+      <p>This code is valid for 5 minutes. Do not share it with anyone.</p>
+    </div>
+  `;
+  return sendEmail(to, subject, html);
+};
+
+const sendContactFormEmail = async (adminEmail, { firstName, lastName, email, message }) => {
+  const subject = `New Contact Form Submission from ${firstName} ${lastName || ''}`;
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+      <h2 style="color: #0f172a; margin-bottom: 20px;">New Message from Contact Form</h2>
+      <p><strong>Name:</strong> ${firstName} ${lastName || ''}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;" />
+      <p><strong>Message:</strong></p>
+      <p style="white-space: pre-wrap; background: #f8fafc; padding: 15px; border-radius: 8px;">${message}</p>
+    </div>
+  `;
+  return sendEmail(adminEmail, subject, html);
+};
+
 module.exports = {
-  sendEmail,
   sendOTPEmail,
   sendOrderConfirmationEmail,
-  sendAdminOrderNotificationEmail
+  sendAdminOrderNotificationEmail,
+  sendAdminPasswordResetEmail,
+  sendContactFormEmail
 };
