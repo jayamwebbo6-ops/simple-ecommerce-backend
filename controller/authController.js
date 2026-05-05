@@ -191,7 +191,7 @@ exports.updateProfilePicture = async (req, res) => {
     }
 
     // The image path relative to the server
-    const imageUrl = `${process.env.VITE_API_URL || 'http://localhost:5000'}/uploads/avatar/${req.file.filename}`;
+    const imageUrl = `/uploads/avatar/${req.file.filename}`;
     user.profilePicture = imageUrl;
     await user.save();
 
@@ -302,7 +302,7 @@ exports.updateAdminProfilePicture = async (req, res) => {
       }
     }
 
-    const imageUrl = `${process.env.VITE_API_URL || 'http://localhost:5000'}/uploads/avatar/${req.file.filename}`;
+    const imageUrl = `/uploads/avatar/${req.file.filename}`;
     admin.profilePicture = imageUrl;
     await admin.save();
 

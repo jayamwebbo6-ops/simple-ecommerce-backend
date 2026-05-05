@@ -291,3 +291,38 @@ exports.updatePaymentStatus = async (req, res) => {
     res.status(500).json({ message: error.message || "Internal server error" });
   }
 };
+
+exports.getDashboardStats = async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: "Access forbidden: Admins only" });
+    }
+
+    const totalOrders = await Order.count();
+    const totalProducts = await Product.count();
+    const totalCustomers = await User.count();
+
+    const totalRevenue = await Order.sum('totalAmount', {
+      where: {
+        status: ['confirmed', 'shipped', 'delivered']
+      }
+    }) || 0;
+
+    const recentOrders = await Order.findAll({
+      include: [{ model: User, attributes: ['name', 'email'] }],
+      order: [['createdAt', 'DESC']],
+      limit: 5
+    });
+
+    res.json({
+      totalOrders,
+      totalProducts,
+      totalCustomers,
+      totalRevenue: parseFloat(totalRevenue).toFixed(2),
+      recentOrders
+    });
+  } catch (error) {
+    console.error("Error fetching dashboard stats:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
