@@ -55,7 +55,7 @@ const sendOTPEmail = async (to, otp) => {
       <div style="text-align: center; margin: 40px 0;">
         <span style="font-size: 42px; font-weight: 900; letter-spacing: 10px; color: #10b981; background: #f0fdf4; padding: 20px 40px; border-radius: 16px; border: 2px solid #bbf7d0;">${otp}</span>
       </div>
-      <p style="font-size: 14px; color: #94a3b8; text-align: center; margin-top: 40px;">This code will expire in 10 minutes. If you didn't request this, you can safely ignore this email.</p>
+      <p style="font-size: 14px; color: #94a3b8; text-align: center; margin-top: 40px;">This code will expire in 5 minutes. If you didn't request this, you can safely ignore this email.</p>
     </div>
   `;
   return sendEmail(to, subject, html);
