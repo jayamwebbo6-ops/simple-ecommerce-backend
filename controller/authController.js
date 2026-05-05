@@ -3,7 +3,7 @@ const Admin = require('../model/Admin');
 const { Op } = require('sequelize');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { sendOTPEmail } = require('../utils/emailHelper');
+const { sendOTPEmail, sendAdminPasswordResetEmail, sendContactFormEmail } = require('../utils/emailHelper');
 const fs = require('fs');
 const path = require('path');
 
@@ -191,7 +191,7 @@ exports.updateProfilePicture = async (req, res) => {
     }
 
     // The image path relative to the server
-    const imageUrl = `${process.env.VITE_API_URL || 'http://localhost:5000'}/uploads/avatar/${req.file.filename}`;
+    const imageUrl = `/uploads/avatar/${req.file.filename}`;
     user.profilePicture = imageUrl;
     await user.save();
 
@@ -302,7 +302,7 @@ exports.updateAdminProfilePicture = async (req, res) => {
       }
     }
 
-    const imageUrl = `${process.env.VITE_API_URL || 'http://localhost:5000'}/uploads/avatar/${req.file.filename}`;
+    const imageUrl = `/uploads/avatar/${req.file.filename}`;
     admin.profilePicture = imageUrl;
     await admin.save();
 
@@ -326,21 +326,7 @@ exports.adminForgotPassword = async (req, res) => {
     admin.otpExpiry = new Date(Date.now() + 5 * 60 * 1000); // 5 mins
     await admin.save();
 
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: admin.email,
-      subject: 'AURA ADMIN - Password Reset Code',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #0f172a;">AURA Admin Secure Access</h2>
-          <p>Your one-time password (OTP) for resetting your admin password is:</p>
-          <h1 style="color: #059669; font-size: 32px; letter-spacing: 4px;">${otp}</h1>
-          <p>This code is valid for 5 minutes. Do not share it with anyone.</p>
-        </div>
-      `
-    };
-
-    await transporter.sendMail(mailOptions);
+    await sendAdminPasswordResetEmail(admin.email, otp);
     console.log(`[DEVELOPMENT] Admin reset OTP sent to ${email}: ${otp}`);
 
     res.json({ message: "OTP sent successfully" });
@@ -389,23 +375,7 @@ exports.submitContact = async (req, res) => {
 
     const adminEmail = admin.email;
 
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: adminEmail,
-      subject: `New Contact Form Submission from ${firstName} ${lastName || ''}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-          <h2 style="color: #0f172a; margin-bottom: 20px;">New Message from Contact Form</h2>
-          <p><strong>Name:</strong> ${firstName} ${lastName || ''}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;" />
-          <p><strong>Message:</strong></p>
-          <p style="white-space: pre-wrap; background: #f8fafc; padding: 15px; border-radius: 8px;">${message}</p>
-        </div>
-      `
-    };
-
-    await transporter.sendMail(mailOptions);
+    await sendContactFormEmail(adminEmail, { firstName, lastName, email, message });
     res.json({ message: "Message sent successfully!" });
   } catch (error) {
     console.error("Error submitting contact form:", error);

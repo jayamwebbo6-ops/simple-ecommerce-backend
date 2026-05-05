@@ -8,11 +8,18 @@ exports.createProduct = async (req, res) => {
     let image = null;
 
     if (req.file) {
-      image = `${process.env.VITE_API_URL || 'http://localhost:5000'}/uploads/products/${req.file.filename}`;
+      image = `/uploads/products/${req.file.filename}`;
+    }
+
+    // Ensure unique slug
+    let finalSlug = slug;
+    const existingProduct = await Product.findOne({ where: { slug: finalSlug } });
+    if (existingProduct) {
+      finalSlug = `${slug}-${Math.floor(Math.random() * 9000) + 1000}`;
     }
 
     const product = await Product.create({
-      name, slug, description, originPrice, sellingPrice, stock, status, image
+      name, slug: finalSlug, description, originPrice, sellingPrice, stock, status, image
     });
 
     res.status(201).json({ message: "Product created successfully", product });
@@ -60,11 +67,20 @@ exports.updateProduct = async (req, res) => {
           }
         }
       }
-      image = `${process.env.VITE_API_URL || 'http://localhost:5000'}/uploads/products/${req.file.filename}`;
+      image = `/uploads/products/${req.file.filename}`;
+    }
+
+    // Check if new slug already exists (excluding current product)
+    let finalSlug = slug;
+    if (slug !== product.slug) {
+      const existingProduct = await Product.findOne({ where: { slug: finalSlug } });
+      if (existingProduct) {
+        finalSlug = `${slug}-${Math.floor(Math.random() * 9000) + 1000}`;
+      }
     }
 
     await product.update({
-      name, slug, description, originPrice, sellingPrice, stock, status, image
+      name, slug: finalSlug, description, originPrice, sellingPrice, stock, status, image
     });
 
     res.json({ message: "Product updated successfully", product });

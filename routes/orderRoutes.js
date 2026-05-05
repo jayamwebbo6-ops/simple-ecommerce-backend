@@ -9,6 +9,7 @@ router.put('/payment-status', authMiddleware, orderController.updatePaymentStatu
 
 // Admin routes
 router.get('/admin/all', authMiddleware, orderController.getAllOrders);
+router.get('/admin/stats', authMiddleware, orderController.getDashboardStats);
 router.put('/admin/status/:orderId', authMiddleware, orderController.updateOrderStatus);
 
 module.exports = router;
