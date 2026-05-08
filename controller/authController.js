@@ -28,7 +28,7 @@ exports.sendOtp = async (req, res) => {
 
     // Send OTP via email using the utility
     await sendOTPEmail(email, otp);
-    
+
     console.log(`[DEVELOPMENT] Email sent to ${email} with OTP: ${otp}`);
 
     res.status(200).json({ message: "OTP sent successfully" });
@@ -60,8 +60,8 @@ exports.verifyOtp = async (req, res) => {
     await user.save();
 
     const token = jwt.sign(
-      { id: user.id, email: user.email }, 
-      process.env.JWT_SECRET || 'fallback_secret_key', 
+      { id: user.id, email: user.email },
+      process.env.JWT_SECRET || 'fallback_secret_key',
       { expiresIn: '7d' }
     );
 
@@ -95,10 +95,10 @@ exports.googleAuth = async (req, res) => {
 
     let user = await User.findOne({ where: { email } });
     if (!user) {
-      user = await User.create({ 
-        email, 
+      user = await User.create({
+        email,
         name: finalName,
-        profilePicture 
+        profilePicture
       });
       console.log(`[DEBUG] Created new user: ${user.email} with name: ${user.name}`);
     } else {
@@ -106,19 +106,19 @@ exports.googleAuth = async (req, res) => {
       if (!user.name || user.name === "User" || user.name === "Member") {
         user.name = finalName;
       }
-      
+
       // Update profile picture if missing or not a custom upload
       if (profilePicture && (!user.profilePicture || !user.profilePicture.includes('/uploads/'))) {
         user.profilePicture = profilePicture;
       }
-      
+
       await user.save();
       console.log(`[DEBUG] Synced existing user: ${user.email} with name: ${user.name}`);
     }
 
     const localToken = jwt.sign(
-      { id: user.id, email: user.email }, 
-      process.env.JWT_SECRET || 'fallback_secret_key', 
+      { id: user.id, email: user.email },
+      process.env.JWT_SECRET || 'fallback_secret_key',
       { expiresIn: '7d' }
     );
 
@@ -150,9 +150,9 @@ exports.updateProfile = async (req, res) => {
 
     if (name !== undefined) user.name = name;
     if (phoneNumber !== undefined) user.phoneNumber = phoneNumber;
-    
+
     await user.save();
-    
+
     res.json({
       id: user.id,
       name: user.name,
@@ -171,7 +171,7 @@ exports.updateProfilePicture = async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: "No image provided" });
     }
-    
+
     const user = await User.findByPk(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
@@ -205,23 +205,23 @@ exports.updateProfilePicture = async (req, res) => {
 exports.adminLogin = async (req, res) => {
   try {
     const { email, password } = req.body; // email is used as identifier (username or email)
-    const admin = await Admin.findOne({ 
-      where: { 
+    const admin = await Admin.findOne({
+      where: {
         [Op.or]: [
           { email: email },
           { name: email }
         ]
-      } 
+      }
     });
-    
+
     if (!admin) return res.status(404).json({ message: "Admin not found" });
 
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
     const token = jwt.sign(
-      { id: admin.id, email: admin.email, role: 'admin' }, 
-      process.env.JWT_SECRET || 'fallback_secret_key', 
+      { id: admin.id, email: admin.email, role: 'admin' },
+      process.env.JWT_SECRET || 'fallback_secret_key',
       { expiresIn: '1d' }
     );
 
@@ -241,7 +241,7 @@ exports.getAdminProfile = async (req, res) => {
     const admin = await Admin.findByPk(req.user.id, {
       attributes: ['id', 'name', 'email', 'profilePicture']
     });
-    
+
     if (!admin) return res.status(404).json({ message: "Admin not found" });
     res.json(admin);
   } catch (error) {
@@ -273,9 +273,9 @@ exports.updateAdminProfile = async (req, res) => {
     }
 
     await admin.save();
-    res.json({ 
-      message: "Profile updated successfully", 
-      admin: { id: admin.id, name: admin.name, email: admin.email, profilePicture: admin.profilePicture } 
+    res.json({
+      message: "Profile updated successfully",
+      admin: { id: admin.id, name: admin.name, email: admin.email, profilePicture: admin.profilePicture }
     });
   } catch (error) {
     console.error("Error updating admin profile:", error);
@@ -287,7 +287,7 @@ exports.updateAdminProfilePicture = async (req, res) => {
   try {
     if (req.user.role !== 'admin') return res.status(403).json({ message: "Admins only" });
     if (!req.file) return res.status(400).json({ message: "No image provided" });
-    
+
     const admin = await Admin.findByPk(req.user.id);
     if (!admin) return res.status(404).json({ message: "Admin not found" });
 
