@@ -12,13 +12,22 @@ const Wishlist = sequelize.define('Wishlist', {
 });
 
 // Setup relationships
-User.belongsToMany(Product, { through: Wishlist, as: 'wishlistProducts' });
-Product.belongsToMany(User, { through: Wishlist });
+User.belongsToMany(Product, { 
+  through: Wishlist, 
+  as: 'wishlistProducts',
+  constraints: false,
+  uniqueKey: 'wishlist_user_prod_unique'
+});
+Product.belongsToMany(User, { 
+  through: Wishlist,
+  constraints: false,
+  uniqueKey: 'wishlist_user_prod_unique'
+});
 
 // Direct associations for eager loading
-Wishlist.belongsTo(User);
-Wishlist.belongsTo(Product);
-User.hasMany(Wishlist);
-Product.hasMany(Wishlist);
+Wishlist.belongsTo(User, { constraints: false });
+Wishlist.belongsTo(Product, { constraints: false });
+User.hasMany(Wishlist, { constraints: false });
+Product.hasMany(Wishlist, { constraints: false });
 
 module.exports = Wishlist;

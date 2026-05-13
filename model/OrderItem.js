@@ -20,10 +20,10 @@ const OrderItem = sequelize.define('OrderItem', {
   }
 });
 
-OrderItem.belongsTo(Order);
-Order.hasMany(OrderItem, { as: 'items' });
+OrderItem.belongsTo(Order, { constraints: false });
+Order.hasMany(OrderItem, { as: 'items', constraints: false });
 
-OrderItem.belongsTo(Product);
-Product.hasMany(OrderItem);
+OrderItem.belongsTo(Product, { constraints: false });
+Product.hasMany(OrderItem, { constraints: false });
 
 module.exports = OrderItem;
