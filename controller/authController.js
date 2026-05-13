@@ -71,7 +71,7 @@ exports.verifyOtp = async (req, res) => {
       { expiresIn: "7d" },
     );
 
-    res.status(200).json({ message: "Verified successfully", token });
+    res.status(200).json({ message: "Verified successfully", token, simple_token: token });
   } catch (error) {
     console.error("Error in verifyOtp:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -144,9 +144,7 @@ exports.googleAuth = async (req, res) => {
       { expiresIn: "7d" },
     );
 
-    res
-      .status(200)
-      .json({ message: "Google Auth successful", token: localToken });
+    res.status(200).json({ message: "Google Auth successful", token: localToken, simple_token: localToken });
   } catch (error) {
     console.error("Error in googleAuth:", error);
     res.status(500).json({ message: "Internal server error" });
