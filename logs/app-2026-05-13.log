@@ -1,0 +1,6 @@
+[2026-05-13 06:14:16] [INFO] [LOGGER] Application started. Daily rotating file logger initialized.
+[2026-05-13 06:14:17] [INFO] ◇ injected env (0) from .env [2m// tip: ⌘ enable debugging { debug: true }[0m
+[2026-05-13 06:14:17] [INFO] Connected to MySQL Database via Sequelize: aura on port 3306
+[2026-05-13 06:14:17] [INFO] Database synced
+[2026-05-13 06:14:17] [INFO] [CRON] stockRestoreCron started — restores reserve stock after 10 minutes.
+[2026-05-13 06:14:17] [INFO] Server is running on port 5000

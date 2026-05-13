@@ -1,4 +1,7 @@
 require('dotenv').config();
+const { initLogger } = require('./utils/logger');
+initLogger(); // Initialize file logger overrides early
+
 const express = require('express');
 const cors = require('cors');
 const sequelize = require('./config/db');
@@ -15,6 +18,16 @@ const app = express();
 // Middleware
 app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:4173', 'http://localhost:5174', 'https://webscape.co.in'], credentials: true }));
 app.use(express.json());
+
+// Request Logging Middleware
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    console.log(`[API] ${req.method} ${req.originalUrl || req.url} ${res.statusCode} - ${duration}ms`);
+  });
+  next();
+});
 
 app.use((req, res, next) => {
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
