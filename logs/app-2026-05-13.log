@@ -4,3 +4,17 @@
 [2026-05-13 06:14:17] [INFO] Database synced
 [2026-05-13 06:14:17] [INFO] [CRON] stockRestoreCron started — restores reserve stock after 10 minutes.
 [2026-05-13 06:14:17] [INFO] Server is running on port 5000
+[2026-05-13 06:34:37] [INFO] [LOGGER] Application started. Daily rotating file logger initialized.
+[2026-05-13 06:34:37] [INFO] ◇ injected env (0) from .env [2m// tip: ◈ secrets for agents [www.dotenvx.com][0m
+[2026-05-13 06:34:38] [INFO] Connected to MySQL Database via Sequelize: aura on port 3306
+[2026-05-13 06:34:38] [INFO] Database synced
+[2026-05-13 06:34:38] [INFO] [CRON] stockRestoreCron started — restores reserve stock after 10 minutes.
+[2026-05-13 06:34:38] [INFO] Server is running on port 3005
+[2026-05-13 06:35:14] [INFO] [API] GET /simple-ecommerce/api/auth/admin/profile 404 - 25ms
+[2026-05-13 06:35:14] [INFO] [API] GET /simple-ecommerce/api/orders/admin/stats 200 - 35ms
+[2026-05-13 06:35:14] [INFO] [API] GET /simple-ecommerce/api/auth/admin/profile 404 - 16ms
+[2026-05-13 06:35:14] [INFO] [API] GET /simple-ecommerce/api/orders/admin/stats 304 - 147ms
+[2026-05-13 06:35:21] [INFO] [API] GET /simple-ecommerce/api/products 200 - 4ms
+[2026-05-13 06:35:21] [INFO] [API] GET /simple-ecommerce/api/products 304 - 5ms
+[2026-05-13 06:35:21] [INFO] [API] GET /simple-ecommerce/uploads/products/product-1777961617616-716532752.png 200 - 18ms
+[2026-05-13 06:35:21] [INFO] [API] GET /simple-ecommerce/uploads/products/product-1777961654980-579896993.png 200 - 66ms
