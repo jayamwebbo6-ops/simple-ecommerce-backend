@@ -1,0 +1,92 @@
+[2026-05-18 05:10:57] [INFO] [LOGGER] Application started. Daily rotating file logger initialized.
+[2026-05-18 05:10:58] [INFO] ◇ injected env (0) from .env [2m// tip: ⌘ override existing { override: true }[0m
+[2026-05-18 05:10:58] [INFO] Connected to MySQL Database via Sequelize: aura on port 3306
+[2026-05-18 05:10:58] [INFO] Database synced
+[2026-05-18 05:10:58] [INFO] [CRON] stockRestoreCron started — restores reserve stock after 10 minutes.
+[2026-05-18 05:10:58] [INFO] Server is running on port 5000
+[2026-05-18 05:11:43] [INFO] [API] GET /api/products 404 - 8ms
+[2026-05-18 05:11:43] [INFO] [API] GET /api/products 404 - 1ms
+[2026-05-18 05:11:48] [INFO] [API] GET /api/products 404 - 1ms
+[2026-05-18 05:11:48] [INFO] [API] GET /api/products 404 - 1ms
+[2026-05-18 05:12:27] [INFO] [API] POST /api/auth/admin/login 404 - 0ms
+[2026-05-18 05:12:35] [INFO] [API] POST /api/auth/admin/login 404 - 1ms
+[2026-05-18 05:12:53] [INFO] [API] GET /api/products 404 - 1ms
+[2026-05-18 05:12:53] [INFO] [API] GET /api/products 404 - 1ms
+[2026-05-18 05:13:25] [INFO] [API] POST /api/auth/admin/login 404 - 1ms
+[2026-05-18 05:13:27] [INFO] [API] POST /api/auth/admin/login 404 - 0ms
+[2026-05-18 05:13:29] [INFO] [API] POST /api/auth/admin/login 404 - 1ms
+[2026-05-18 05:14:22] [INFO] [API] POST /api/auth/admin/login 404 - 0ms
+[2026-05-18 05:14:35] [INFO] [API] POST /api/auth/admin/login 404 - 0ms
+[2026-05-18 05:14:38] [INFO] [API] POST /api/auth/admin/forgot-password 404 - 0ms
+[2026-05-18 05:14:40] [INFO] [API] POST /api/auth/admin/forgot-password 404 - 1ms
+[2026-05-18 05:14:55] [INFO] [API] POST /api/auth/admin/forgot-password 404 - 1ms
+[2026-05-18 05:15:10] [INFO] [API] POST /api/auth/admin/forgot-password 404 - 0ms
+[2026-05-18 05:16:32] [INFO] [API] POST /api/auth/admin/login 404 - 0ms
+[2026-05-18 05:16:36] [INFO] [API] POST /api/auth/admin/login 404 - 1ms
+[2026-05-18 05:16:37] [INFO] [API] POST /api/auth/admin/login 404 - 0ms
+[2026-05-18 05:16:38] [INFO] [API] POST /api/auth/admin/login 404 - 1ms
+[2026-05-18 05:16:38] [INFO] [API] POST /api/auth/admin/login 404 - 0ms
+[2026-05-18 05:16:38] [INFO] [API] POST /api/auth/admin/login 404 - 0ms
+[2026-05-18 05:17:43] [INFO] [LOGGER] Application started. Daily rotating file logger initialized.
+[2026-05-18 05:17:43] [INFO] ◇ injected env (0) from .env [2m// tip: ⌘ multiple files { path: ['.env.local', '.env'] }[0m
+[2026-05-18 05:17:43] [INFO] Connected to MySQL Database via Sequelize: aura on port 3306
+[2026-05-18 05:17:43] [INFO] Database synced
+[2026-05-18 05:17:43] [INFO] [CRON] stockRestoreCron started — restores reserve stock after 10 minutes.
+[2026-05-18 05:17:44] [INFO] Seeded default admin (admin123@gmail.com / admin123)
+[2026-05-18 05:17:44] [INFO] Server is running on port 5000
+[2026-05-18 05:18:41] [INFO] [API] POST /api/auth/admin/login 404 - 1ms
+[2026-05-18 05:19:06] [INFO] [API] POST /api/auth/admin/login 404 - 0ms
+[2026-05-18 05:19:07] [INFO] [API] POST /api/auth/admin/login 404 - 0ms
+[2026-05-18 05:20:43] [INFO] [API] GET /api/products 404 - 2ms
+[2026-05-18 05:20:43] [INFO] [API] GET /api/products 404 - 1ms
+[2026-05-18 05:20:56] [INFO] [API] POST /api/auth/admin/login 404 - 0ms
+[2026-05-18 05:21:49] [INFO] [API] POST /api/auth/admin/login 404 - 1ms
+[2026-05-18 05:23:28] [INFO] ◇ injected env (0) from .env [2m// tip: ⌘ custom filepath { path: '/custom/path/.env' }[0m
+[2026-05-18 05:23:27] [INFO] [LOGGER] Application started. Daily rotating file logger initialized.
+[2026-05-18 05:23:28] [INFO] Connected to MySQL Database via Sequelize: aura on port 3306
+[2026-05-18 05:23:28] [INFO] Database synced
+[2026-05-18 05:23:28] [INFO] [CRON] stockRestoreCron started — restores reserve stock after 10 minutes.
+[2026-05-18 05:23:28] [INFO] Seeded default admin (admin123@gmail.com / admin123)
+[2026-05-18 05:23:28] [INFO] Server is running on port 5000
+[2026-05-18 05:23:47] [INFO] [API] GET /api/products 404 - 7ms
+[2026-05-18 05:23:47] [INFO] [API] GET /api/products 404 - 1ms
+[2026-05-18 05:24:01] [INFO] [API] POST /api/auth/admin/login 404 - 0ms
+[2026-05-18 05:24:59] [INFO] ◇ injected env (0) from .env [2m// tip: ⌘ override existing { override: true }[0m
+[2026-05-18 05:24:59] [INFO] [LOGGER] Application started. Daily rotating file logger initialized.
+[2026-05-18 05:25:00] [INFO] Connected to MySQL Database via Sequelize: aura on port 3306
+[2026-05-18 05:25:00] [INFO] Database synced
+[2026-05-18 05:25:00] [INFO] [CRON] stockRestoreCron started — restores reserve stock after 10 minutes.
+[2026-05-18 05:25:00] [INFO] Seeded default admin (admin123@gmail.com / admin123)
+[2026-05-18 05:25:00] [INFO] Server is running on port 5000
+[2026-05-18 05:25:32] [INFO] [API] POST /api/auth/admin/login 404 - 1ms
+[2026-05-18 05:25:33] [INFO] [API] POST /api/auth/admin/login 404 - 0ms
+[2026-05-18 05:25:52] [INFO] [API] POST /api/auth/admin/login 404 - 1ms
+[2026-05-18 05:27:22] [INFO] [API] POST /simple-ecommerce/api/auth/admin/login 400 - 12ms
+[2026-05-18 05:27:25] [INFO] [API] POST /simple-ecommerce/api/auth/admin/login 400 - 5ms
+[2026-05-18 05:27:31] [INFO] [API] POST /simple-ecommerce/api/auth/admin/login 400 - 13ms
+[2026-05-18 05:27:32] [INFO] [API] POST /simple-ecommerce/api/auth/admin/login 400 - 3ms
+[2026-05-18 05:27:46] [INFO] [API] POST /simple-ecommerce/api/auth/admin/login 400 - 8ms
+[2026-05-18 05:29:27] [INFO] [LOGGER] Application started. Daily rotating file logger initialized.
+[2026-05-18 05:29:27] [INFO] ◇ injected env (0) from .env [2m// tip: ⌘ enable debugging { debug: true }[0m
+[2026-05-18 05:29:27] [INFO] Connected to MySQL Database via Sequelize: aura on port 3306
+[2026-05-18 05:29:27] [INFO] Database synced
+[2026-05-18 05:29:27] [INFO] [CRON] stockRestoreCron started — restores reserve stock after 10 minutes.
+[2026-05-18 05:29:28] [INFO] Seeded default admin (admin123@gmail.com / admin123)
+[2026-05-18 05:29:28] [INFO] Server is running on port 5000
+[2026-05-18 05:29:48] [INFO] [API] POST /simple-ecommerce/api/auth/admin/login 200 - 115ms
+[2026-05-18 05:29:48] [INFO] [API] GET /simple-ecommerce/api/auth/admin/profile 200 - 10ms
+[2026-05-18 05:29:48] [INFO] [API] GET /simple-ecommerce/api/auth/admin/profile 304 - 9ms
+[2026-05-18 05:29:48] [INFO] [API] GET /simple-ecommerce/api/orders/admin/stats 200 - 35ms
+[2026-05-18 05:29:48] [INFO] [API] GET /simple-ecommerce/api/orders/admin/stats 304 - 16ms
+[2026-05-18 05:31:41] [INFO] [API] GET /simple-ecommerce/api/products 200 - 6ms
+[2026-05-18 05:31:41] [INFO] [API] GET /simple-ecommerce/api/products 304 - 2ms
+[2026-05-18 05:31:42] [INFO] [API] GET /simple-ecommerce/api/orders/admin/all 200 - 6ms
+[2026-05-18 05:31:42] [INFO] [API] GET /simple-ecommerce/api/orders/admin/all 304 - 8ms
+[2026-05-18 05:31:43] [INFO] [API] GET /simple-ecommerce/api/auth/admin/profile 304 - 2ms
+[2026-05-18 05:31:43] [INFO] [API] GET /simple-ecommerce/api/auth/admin/profile 304 - 3ms
+[2026-05-18 05:31:44] [INFO] [API] GET /simple-ecommerce/api/orders/admin/all 304 - 6ms
+[2026-05-18 05:31:44] [INFO] [API] GET /simple-ecommerce/api/orders/admin/all 304 - 7ms
+[2026-05-18 05:31:45] [INFO] [API] GET /simple-ecommerce/api/products 304 - 3ms
+[2026-05-18 05:31:45] [INFO] [API] GET /simple-ecommerce/api/products 304 - 2ms
+[2026-05-18 05:31:46] [INFO] [API] GET /simple-ecommerce/api/orders/admin/stats 304 - 6ms
+[2026-05-18 05:31:46] [INFO] [API] GET /simple-ecommerce/api/orders/admin/stats 304 - 10ms

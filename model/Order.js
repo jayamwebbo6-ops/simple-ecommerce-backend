@@ -14,16 +14,21 @@ const Order = sequelize.define('Order', {
     defaultValue: 0.00
   },
   status: {
-    type: DataTypes.ENUM('pending', 'processing', 'completed', 'cancelled'),
-    defaultValue: 'pending'
+    type: DataTypes.ENUM('awaiting_payment', 'confirmed', 'shipped', 'delivered', 'cancelled', 'payment_failed'),
+    defaultValue: 'awaiting_payment'
   },
   shippingAddress: {
     type: DataTypes.TEXT,
     allowNull: true
+  },
+  // Set when status becomes payment_failed — cron uses this to restore stock after 10 min
+  failedAt: {
+    type: DataTypes.DATE,
+    allowNull: true
   }
 });
 
-Order.belongsTo(User);
-User.hasMany(Order);
+Order.belongsTo(User, { constraints: false });
+User.hasMany(Order, { constraints: false });
 
 module.exports = Order;

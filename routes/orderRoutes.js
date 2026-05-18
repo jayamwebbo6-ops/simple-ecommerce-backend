@@ -5,5 +5,11 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 router.post('/checkout', authMiddleware, orderController.checkout);
 router.get('/', authMiddleware, orderController.getOrders);
+router.put('/payment-status', authMiddleware, orderController.updatePaymentStatus);
+
+// Admin routes
+router.get('/admin/all', authMiddleware, orderController.getAllOrders);
+router.get('/admin/stats', authMiddleware, orderController.getDashboardStats);
+router.put('/admin/status/:orderId', authMiddleware, orderController.updateOrderStatus);
 
 module.exports = router;
