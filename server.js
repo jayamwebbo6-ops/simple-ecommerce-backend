@@ -1,4 +1,7 @@
 require('dotenv').config();
+const { initLogger } = require('./utils/logger');
+initLogger(); // Initialize file logger overrides early
+
 const express = require('express');
 const cors = require('cors');
 const sequelize = require('./config/db');
@@ -13,8 +16,18 @@ const { startStockRestoreCron } = require('./utils/stockRestoreCron');
 const app = express();
 
 // Middleware
-app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:4173', 'http://localhost:5174'], credentials: true }));
+app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:4173', 'http://localhost:5174', 'https://webscape.co.in'], credentials: true }));
 app.use(express.json());
+
+// Request Logging Middleware
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    console.log(`[API] ${req.method} ${req.originalUrl || req.url} ${res.statusCode} - ${duration}ms`);
+  });
+  next();
+});
 
 app.use((req, res, next) => {
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
@@ -23,15 +36,29 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/wishlist', wishlistRoutes);
-app.use('/api/cart', cartRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/addresses', addressRoutes);
+const apiRouter = express.Router();
+
+// Test API route
+apiRouter.get('/test', (req, res) => {
+  res.json({ success: true, message: 'API is working successfully' });
+});
+
+apiRouter.use('/auth', authRoutes);
+apiRouter.use('/products', productRoutes);
+apiRouter.use('/wishlist', wishlistRoutes);
+apiRouter.use('/cart', cartRoutes);
+apiRouter.use('/orders', orderRoutes);
+apiRouter.use('/addresses', addressRoutes);
+
+const apiPrefix = process.env.API_URL ? `/${process.env.API_URL}/api` : '/api';
+app.use(apiPrefix, apiRouter);
 
 // Static files
-app.use('/uploads', express.static('uploads'));
+const uploadsPrefix = process.env.API_URL ? `/${process.env.API_URL}/uploads` : '/uploads';
+app.use(uploadsPrefix, express.static('uploads'));
+if (process.env.API_URL) {
+  app.use('/uploads', express.static('uploads'));
+}
 
 const PORT = process.env.PORT || 5000;
 

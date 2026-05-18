@@ -10,11 +10,7 @@ const Address = sequelize.define('Address', {
   },
   userId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: User,
-      key: 'id'
-    }
+    allowNull: false
   },
   addressLine1: {
     type: DataTypes.STRING,
@@ -45,7 +41,7 @@ const Address = sequelize.define('Address', {
   }
 });
 
-User.hasMany(Address, { foreignKey: 'userId' });
-Address.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Address, { foreignKey: 'userId', constraints: false });
+Address.belongsTo(User, { foreignKey: 'userId', constraints: false });
 
 module.exports = Address;

@@ -17,9 +17,9 @@ const Cart = sequelize.define('Cart', {
 });
 
 // Direct associations for eager loading
-Cart.belongsTo(User);
-Cart.belongsTo(Product);
-User.hasMany(Cart);
-Product.hasMany(Cart);
+Cart.belongsTo(User, { constraints: false });
+Cart.belongsTo(Product, { constraints: false });
+User.hasMany(Cart, { constraints: false });
+Product.hasMany(Cart, { constraints: false });
 
 module.exports = Cart;
