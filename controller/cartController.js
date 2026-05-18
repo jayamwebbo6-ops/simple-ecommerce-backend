@@ -60,7 +60,8 @@ exports.getCart = async (req, res) => {
         }
       ]
     });
-    res.status(200).json(cartItems);
+    const validCartItems = cartItems.filter(item => item && item.Product);
+    res.status(200).json(validCartItems);
   } catch (error) {
     console.error("Error getting cart:", error);
     res.status(500).json({ message: "Internal server error" });

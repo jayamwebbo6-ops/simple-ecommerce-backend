@@ -45,7 +45,9 @@ exports.getWishlist = async (req, res) => {
     });
 
     // Format the response to be an array of products for easy rendering
-    const products = wishlistItems.map(item => item.Product);
+    const products = wishlistItems
+      .map(item => item.Product)
+      .filter(product => product !== null && product !== undefined);
 
     res.status(200).json(products);
   } catch (error) {
