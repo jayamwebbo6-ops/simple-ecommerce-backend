@@ -1,6 +1,7 @@
 const Product = require('../model/Product');
 const fs = require('fs');
 const path = require('path');
+const { log } = require('../utils/logger');
 
 exports.createProduct = async (req, res) => {
   try {
@@ -24,7 +25,7 @@ exports.createProduct = async (req, res) => {
 
     res.status(201).json({ message: "Product created successfully", product });
   } catch (error) {
-    console.error("Error creating product:", error);
+    log("Error creating product: " + error.message);
     res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
@@ -34,7 +35,7 @@ exports.getProducts = async (req, res) => {
     const products = await Product.findAll({ order: [['createdAt', 'DESC']] });
     res.json(products);
   } catch (error) {
-    console.error("Error fetching products:", error);
+    log("Error fetching products: " + error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -85,7 +86,7 @@ exports.updateProduct = async (req, res) => {
 
     res.json({ message: "Product updated successfully", product });
   } catch (error) {
-    console.error("Error updating product:", error);
+    log("Error updating product: " + error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };

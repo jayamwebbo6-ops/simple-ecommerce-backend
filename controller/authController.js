@@ -10,6 +10,7 @@ const {
 } = require("../utils/emailHelper");
 const fs = require("fs");
 const path = require("path");
+const { log } = require("../utils/logger");
 
 const generateOTP = () =>
   Math.floor(100000 + Math.random() * 900000).toString();
@@ -34,11 +35,11 @@ exports.sendOtp = async (req, res) => {
     // Send OTP via email using the utility
     await sendOTPEmail(email, otp);
 
-    console.log(`[DEVELOPMENT] Email sent to ${email} with OTP: ${otp}`);
+    log(`[DEVELOPMENT] Email sent to ${email} with OTP: ${otp}`);
 
     res.status(200).json({ message: "OTP sent successfully" });
   } catch (error) {
-    console.error("Error in sendOtp:", error);
+    log("Error in sendOtp: " + error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };

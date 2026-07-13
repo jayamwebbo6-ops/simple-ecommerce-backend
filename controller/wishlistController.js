@@ -1,5 +1,6 @@
 const Wishlist = require('../model/Wishlist');
 const Product = require('../model/Product');
+const { log } = require('../utils/logger');
 
 exports.toggleWishlist = async (req, res) => {
   try {
@@ -24,7 +25,7 @@ exports.toggleWishlist = async (req, res) => {
       return res.status(200).json({ message: "Added to wishlist", isWishlisted: true });
     }
   } catch (error) {
-    console.error("Error toggling wishlist:", error);
+    log("Error toggling wishlist: " + error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -49,7 +50,7 @@ exports.getWishlist = async (req, res) => {
 
     res.status(200).json(products);
   } catch (error) {
-    console.error("Error getting wishlist:", error);
+    log("Error getting wishlist: " + error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };

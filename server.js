@@ -53,11 +53,13 @@ apiRouter.use('/addresses', addressRoutes);
 const apiPrefix = process.env.API_URL ? `/${process.env.API_URL}/api` : '/api';
 app.use(apiPrefix, apiRouter);
 
-// Static files
-const uploadsPrefix = process.env.API_URL ? `/${process.env.API_URL}/uploads` : '/uploads';
-app.use(uploadsPrefix, express.static('uploads'));
+// Static files — canonical path: /simple-ecommerce/api/uploads/...
+// This matches what the frontend builds from VITE_API_URL + /uploads/...
+app.use(`${apiPrefix}/uploads`, express.static('uploads')); // /simple-ecommerce/api/uploads
+// Legacy / direct fallback paths
 if (process.env.API_URL) {
-  app.use('/uploads', express.static('uploads'));
+  app.use(`/${process.env.API_URL}/uploads`, express.static('uploads')); // /simple-ecommerce/uploads
+  app.use('/uploads', express.static('uploads'));                         // bare /uploads
 }
 
 const PORT = process.env.PORT || 5000;
@@ -131,4 +133,4 @@ sequelize.sync().then(async () => {
 }).catch(err => {
   console.error("Failed to sync database", err);
 });
-
+// Reload trigger comment

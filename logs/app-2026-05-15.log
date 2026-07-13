@@ -1,6 +1,0 @@
-[2026-05-15 09:51:43] [INFO] [LOGGER] Application started. Daily rotating file logger initialized.
-[2026-05-15 09:51:43] [INFO] ◇ injected env (0) from .env [2m// tip: ◈ encrypted .env [www.dotenvx.com][0m
-[2026-05-15 09:51:44] [INFO] Connected to MySQL Database via Sequelize: aura on port 3306
-[2026-05-15 09:51:44] [INFO] Database synced
-[2026-05-15 09:51:44] [INFO] [CRON] stockRestoreCron started — restores reserve stock after 10 minutes.
-[2026-05-15 09:51:44] [INFO] Server is running on port 3005

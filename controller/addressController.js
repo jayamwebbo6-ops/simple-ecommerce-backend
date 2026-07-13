@@ -1,10 +1,12 @@
 const Address = require('../model/Address');
+const { log } = require('../utils/logger');
 
 exports.getAddresses = async (req, res) => {
   try {
     const addresses = await Address.findAll({ where: { userId: req.user.id } });
     res.status(200).json(addresses);
   } catch (error) {
+    log("Error in getAddresses: " + error.message);
     res.status(500).json({ message: error.message });
   }
 };
@@ -23,6 +25,7 @@ exports.addAddress = async (req, res) => {
     });
     res.status(201).json(address);
   } catch (error) {
+    log("Error in addAddress: " + error.message);
     res.status(500).json({ message: error.message });
   }
 };
@@ -46,6 +49,7 @@ exports.updateAddress = async (req, res) => {
     }
     throw new Error('Address not found');
   } catch (error) {
+    log("Error in updateAddress: " + error.message);
     res.status(500).json({ message: error.message });
   }
 };
@@ -61,6 +65,7 @@ exports.deleteAddress = async (req, res) => {
     }
     throw new Error('Address not found');
   } catch (error) {
+    log("Error in deleteAddress: " + error.message);
     res.status(500).json({ message: error.message });
   }
 };

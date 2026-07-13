@@ -1,5 +1,6 @@
 const Cart = require('../model/Cart');
 const Product = require('../model/Product');
+const { log } = require('../utils/logger');
 
 exports.addToCart = async (req, res) => {
   try {
@@ -43,7 +44,7 @@ exports.addToCart = async (req, res) => {
 
     return res.status(200).json({ message: "Added to cart", cartItem });
   } catch (error) {
-    console.error("Error adding to cart:", error);
+    log("Error adding to cart: " + error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -62,7 +63,7 @@ exports.getCart = async (req, res) => {
     });
     res.status(200).json(cartItems);
   } catch (error) {
-    console.error("Error getting cart:", error);
+    log("Error getting cart: " + error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -80,7 +81,7 @@ exports.removeFromCart = async (req, res) => {
     await cartItem.destroy();
     res.status(200).json({ message: "Item removed from cart" });
   } catch (error) {
-    console.error("Error removing from cart:", error);
+    log("Error removing from cart: " + error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -116,7 +117,7 @@ exports.updateQuantity = async (req, res) => {
 
     res.status(200).json({ message: "Cart updated", cartItem });
   } catch (error) {
-    console.error("Error updating cart:", error);
+    log("Error updating cart: " + error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -127,7 +128,7 @@ exports.clearCart = async (req, res) => {
     await Cart.destroy({ where: { UserId: userId } });
     res.status(200).json({ message: "Cart cleared" });
   } catch (error) {
-    console.error("Error clearing cart:", error);
+    log("Error clearing cart: " + error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
