@@ -39,6 +39,8 @@ const Address = sequelize.define('Address', {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   }
+}, {
+  tableName: 'addresses'
 });
 
 User.hasMany(Address, { foreignKey: 'userId', constraints: false });

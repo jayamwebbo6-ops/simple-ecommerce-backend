@@ -267,7 +267,12 @@ exports.getAdminProfile = async (req, res) => {
     }
 
     const admin = await Admin.findByPk(req.user.id, {
-      attributes: ["id", "name", "email", "profilePicture"],
+      attributes: [
+        "id", "name", "email", "profilePicture",
+        "address", "phone", "facebook", "twitter", "instagram",
+        "showAddress", "showPhone", "showSocial",
+        "showFacebook", "showTwitter", "showInstagram"
+      ],
     });
 
     if (!admin) return res.status(404).json({ message: "Admin not found" });
@@ -283,12 +288,29 @@ exports.updateAdminProfile = async (req, res) => {
     if (req.user.role !== "admin")
       return res.status(403).json({ message: "Admins only" });
 
-    const { name, email, password, oldPassword } = req.body;
+    const {
+      name, email, password, oldPassword,
+      address, phone, facebook, twitter, instagram,
+      showAddress, showPhone, showSocial,
+      showFacebook, showTwitter, showInstagram
+    } = req.body;
     const admin = await Admin.findByPk(req.user.id);
     if (!admin) return res.status(404).json({ message: "Admin not found" });
 
     if (name) admin.name = name;
     if (email) admin.email = email;
+    if (address !== undefined) admin.address = address;
+    if (phone !== undefined) admin.phone = phone;
+    if (facebook !== undefined) admin.facebook = facebook;
+    if (twitter !== undefined) admin.twitter = twitter;
+    if (instagram !== undefined) admin.instagram = instagram;
+    if (showAddress !== undefined) admin.showAddress = showAddress;
+    if (showPhone !== undefined) admin.showPhone = showPhone;
+    if (showSocial !== undefined) admin.showSocial = showSocial;
+    if (showFacebook !== undefined) admin.showFacebook = showFacebook;
+    if (showTwitter !== undefined) admin.showTwitter = showTwitter;
+    if (showInstagram !== undefined) admin.showInstagram = showInstagram;
+
     if (password) {
       if (!oldPassword) {
         return res
@@ -311,10 +333,40 @@ exports.updateAdminProfile = async (req, res) => {
         name: admin.name,
         email: admin.email,
         profilePicture: admin.profilePicture,
+        address: admin.address,
+        phone: admin.phone,
+        facebook: admin.facebook,
+        twitter: admin.twitter,
+        instagram: admin.instagram,
+        showAddress: admin.showAddress,
+        showPhone: admin.showPhone,
+        showSocial: admin.showSocial,
+        showFacebook: admin.showFacebook,
+        showTwitter: admin.showTwitter,
+        showInstagram: admin.showInstagram,
       },
     });
   } catch (error) {
     console.error("Error updating admin profile:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.getAdminContactInfo = async (req, res) => {
+  try {
+    const admin = await Admin.findOne({
+      attributes: [
+        "name", "email",
+        "address", "phone",
+        "facebook", "twitter", "instagram",
+        "showAddress", "showPhone", "showSocial",
+        "showFacebook", "showTwitter", "showInstagram"
+      ]
+    });
+    if (!admin) return res.status(404).json({ message: "Admin details not configured" });
+    res.json(admin);
+  } catch (error) {
+    console.error("Error getting admin contact info:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

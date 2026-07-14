@@ -76,30 +76,76 @@ require('./model/Address');
 async function addMissingColumns() {
   const qi = sequelize.getQueryInterface();
 
-  const productCols = await qi.describeTable('Products').catch(() => ({}));
+  const productCols = await qi.describeTable('products').catch(() => ({}));
   if (!productCols.reserveStock) {
     await sequelize.query(
-      "ALTER TABLE `Products` ADD COLUMN `reserveStock` INT NOT NULL DEFAULT 0"
+      "ALTER TABLE `products` ADD COLUMN `reserveStock` INT NOT NULL DEFAULT 0"
     );
-    console.log('[MIGRATE] Added Products.reserveStock');
+    console.log('[MIGRATE] Added products.reserveStock');
   }
 
-  const orderCols = await qi.describeTable('Orders').catch(() => ({}));
+  const orderCols = await qi.describeTable('orders').catch(() => ({}));
   if (!orderCols.failedAt) {
     await sequelize.query(
-      "ALTER TABLE `Orders` ADD COLUMN `failedAt` DATETIME NULL"
+      "ALTER TABLE `orders` ADD COLUMN `failedAt` DATETIME NULL"
     );
-    console.log('[MIGRATE] Added Orders.failedAt');
+    console.log('[MIGRATE] Added orders.failedAt');
   }
 
-  // Ensure all ENUM values exist on Orders.status
+  const adminCols = await qi.describeTable('admins').catch(() => ({}));
+  if (!adminCols.address) {
+    await sequelize.query("ALTER TABLE `admins` ADD COLUMN `address` TEXT NULL");
+    console.log('[MIGRATE] Added admins.address');
+  }
+  if (!adminCols.phone) {
+    await sequelize.query("ALTER TABLE `admins` ADD COLUMN `phone` VARCHAR(255) NULL");
+    console.log('[MIGRATE] Added admins.phone');
+  }
+  if (!adminCols.facebook) {
+    await sequelize.query("ALTER TABLE `admins` ADD COLUMN `facebook` VARCHAR(255) NULL");
+    console.log('[MIGRATE] Added admins.facebook');
+  }
+  if (!adminCols.twitter) {
+    await sequelize.query("ALTER TABLE `admins` ADD COLUMN `twitter` VARCHAR(255) NULL");
+    console.log('[MIGRATE] Added admins.twitter');
+  }
+  if (!adminCols.instagram) {
+    await sequelize.query("ALTER TABLE `admins` ADD COLUMN `instagram` VARCHAR(255) NULL");
+    console.log('[MIGRATE] Added admins.instagram');
+  }
+  if (!adminCols.showAddress) {
+    await sequelize.query("ALTER TABLE `admins` ADD COLUMN `showAddress` TINYINT(1) NOT NULL DEFAULT 1");
+    console.log('[MIGRATE] Added admins.showAddress');
+  }
+  if (!adminCols.showPhone) {
+    await sequelize.query("ALTER TABLE `admins` ADD COLUMN `showPhone` TINYINT(1) NOT NULL DEFAULT 1");
+    console.log('[MIGRATE] Added admins.showPhone');
+  }
+  if (!adminCols.showSocial) {
+    await sequelize.query("ALTER TABLE `admins` ADD COLUMN `showSocial` TINYINT(1) NOT NULL DEFAULT 1");
+    console.log('[MIGRATE] Added admins.showSocial');
+  }
+  if (!adminCols.showFacebook) {
+    await sequelize.query("ALTER TABLE `admins` ADD COLUMN `showFacebook` TINYINT(1) NOT NULL DEFAULT 1");
+    console.log('[MIGRATE] Added admins.showFacebook');
+  }
+  if (!adminCols.showTwitter) {
+    await sequelize.query("ALTER TABLE `admins` ADD COLUMN `showTwitter` TINYINT(1) NOT NULL DEFAULT 1");
+    console.log('[MIGRATE] Added admins.showTwitter');
+  }
+  if (!adminCols.showInstagram) {
+    await sequelize.query("ALTER TABLE `admins` ADD COLUMN `showInstagram` TINYINT(1) NOT NULL DEFAULT 1");
+    console.log('[MIGRATE] Added admins.showInstagram');
+  }
+
+  // Ensure all ENUM values exist on orders.status
   await sequelize.query(
-    "ALTER TABLE `Orders` MODIFY COLUMN `status` ENUM('awaiting_payment','confirmed','shipped','delivered','cancelled','payment_failed') NOT NULL DEFAULT 'awaiting_payment'"
-  ).catch(err => console.warn('[MIGRATE] Could not update Orders.status ENUM:', err.message));
+    "ALTER TABLE `orders` MODIFY COLUMN `status` ENUM('awaiting_payment','confirmed','shipped','delivered','cancelled','payment_failed') NOT NULL DEFAULT 'awaiting_payment'"
+  ).catch(err => console.warn('[MIGRATE] Could not update orders.status ENUM:', err.message));
 
   // Proactive Fix: Update any existing "empty" statuses (caused by previous ENUM failure) to 'confirmed'
   await sequelize.query(
-    "UPDATE `Orders` SET `status` = 'confirmed' WHERE `status` = '' OR `status` IS NULL"
+    "UPDATE `orders` SET `status` = 'confirmed' WHERE `status` = '' OR `status` IS NULL"
   ).then(([result]) => {
     if (result.affectedRows > 0) console.log(`[MIGRATE] Fixed ${result.affectedRows} orders with empty status.`);
   }).catch(err => console.warn('[MIGRATE] Could not fix existing statuses:', err.message));

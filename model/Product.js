@@ -15,6 +15,7 @@ const Product = sequelize.define('Product', {
   image: { type: DataTypes.STRING, allowNull: true },
 }, {
   timestamps: true,
+  tableName: 'products'
 });
 
 module.exports = Product;

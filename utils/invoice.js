@@ -159,6 +159,9 @@ function generateInvoiceHTML(order) {
 <head>
 <meta charset="UTF-8" />
 <title>Invoice ${invoiceId}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playball&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -167,8 +170,8 @@ function generateInvoiceHTML(order) {
   }
 
   body {
-    font-family: 'Times New Roman', Times, Georgia, serif;
-    font-size: 15px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
     color: ${COLORS.slate};
     background: ${COLORS.white};
     /* leave bottom space for fixed footer */
@@ -298,7 +301,7 @@ function generateInvoiceHTML(order) {
         const sigDataUri = loadSignatureBase64();
         return sigDataUri
           ? `<img src="${sigDataUri}" alt="Authorized Signature" style="height:60px; max-width:200px; object-fit:contain; display:block; margin:0 auto; border-bottom:1px solid ${COLORS.border}; padding-bottom:8px;" />`
-          : `<div style="font-family:'Brush Script MT',cursive; font-size:28px; color:${COLORS.navy}; border-bottom:1px solid ${COLORS.border}; padding-bottom:8px;">${storeName}</div>`;
+          : `<div style="font-family:'Playball', 'Brush Script MT', cursive; font-size:28px; color:${COLORS.navy}; border-bottom:1px solid ${COLORS.border}; padding-bottom:8px;">${storeName}</div>`;
       })()}
       <div style="font-size:10px; letter-spacing:0.06em; color:${COLORS.slateLight}; margin-top:6px; text-transform:uppercase; font-weight:600;">Authorized Signature</div>
     </div>

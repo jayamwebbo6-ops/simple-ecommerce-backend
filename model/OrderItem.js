@@ -18,6 +18,8 @@ const OrderItem = sequelize.define('OrderItem', {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false
   }
+}, {
+  tableName: 'orderitems'
 });
 
 OrderItem.belongsTo(Order, { constraints: false });

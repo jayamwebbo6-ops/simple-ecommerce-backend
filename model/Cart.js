@@ -14,6 +14,8 @@ const Cart = sequelize.define('Cart', {
     allowNull: false,
     defaultValue: 1
   }
+}, {
+  tableName: 'carts'
 });
 
 // Direct associations for eager loading

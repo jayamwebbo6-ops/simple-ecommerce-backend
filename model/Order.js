@@ -26,6 +26,8 @@ const Order = sequelize.define('Order', {
     type: DataTypes.DATE,
     allowNull: true
   }
+}, {
+  tableName: 'orders'
 });
 
 Order.belongsTo(User, { constraints: false });

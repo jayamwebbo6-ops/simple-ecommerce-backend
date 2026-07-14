@@ -105,7 +105,8 @@ exports.updateQuantity = async (req, res) => {
       return res.status(404).json({ message: "Item not found in cart" });
     }
 
-    if (parseInt(quantity, 10) > cartItem.Product.stock) {
+    const targetQty = parseInt(quantity, 10);
+    if (targetQty > cartItem.Product.stock && targetQty >= cartItem.quantity) {
       return res.status(400).json({ 
         message: `Only ${cartItem.Product.stock} units available in stock.`,
         availableStock: cartItem.Product.stock

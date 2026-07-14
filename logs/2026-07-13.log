@@ -42,3 +42,53 @@
 [2026-07-13 16:12:26] [DEBUG] Admin email sent successfully to jayamproj@gmail.com
 [2026-07-13 16:12:34] [INFO] Email sent: <1fe0d78d-a328-8035-48e0-b1ecc2d41b01@gmail.com>
 [2026-07-13 16:12:34] [DEBUG] Confirmation+PDF Invoice email sent to jayamproj@gmail.com (INV-ORD-0039)
+[2026-07-13 17:12:29] [Logger] Running log cleanup check. Retention limit: 30 days.
+[2026-07-13 17:12:29] [Logger] Cleanup completed. No expired log files found.
+[2026-07-13 17:12:29] [Logger] Automated log cleanup scheduler started (runs every 24 hours).
+[2026-07-13 17:12:30] [CRON] stockRestoreCron started — restores reserve stock after 1 minutes.
+[2026-07-13 17:18:58] [Logger] Running log cleanup check. Retention limit: 30 days.
+[2026-07-13 17:18:58] [Logger] Cleanup completed. No expired log files found.
+[2026-07-13 17:18:58] [Logger] Automated log cleanup scheduler started (runs every 24 hours).
+[2026-07-13 17:25:28] [Logger] Running log cleanup check. Retention limit: 30 days.
+[2026-07-13 17:25:28] [Logger] Cleanup completed. No expired log files found.
+[2026-07-13 17:25:28] [Logger] Automated log cleanup scheduler started (runs every 24 hours).
+[2026-07-13 17:25:32] [CRON] stockRestoreCron started — restores reserve stock after 1 minutes.
+[2026-07-13 17:44:43] [DEBUG] Received updatePaymentStatus request: {"orderId":40,"status":"cancelled"}
+[2026-07-13 17:44:43] [DEBUG] Order #40 found. Current status: "awaiting_payment". Target status: "cancelled"
+[2026-07-13 17:44:43] [DEBUG] Cancelling Order #40 — restoring stock immediately from reserveStock...
+[2026-07-13 17:44:43] [DEBUG] Immediately restored 2 units for Product #5 (reserveStock -> stock)
+[2026-07-13 17:44:43] [DEBUG] Cancel stock-restore committed for Order #40
+[2026-07-13 17:46:04] [DEBUG] Received updatePaymentStatus request: {"orderId":41,"status":"cancelled"}
+[2026-07-13 17:46:04] [DEBUG] Order #41 found. Current status: "awaiting_payment". Target status: "cancelled"
+[2026-07-13 17:46:04] [DEBUG] Cancelling Order #41 — restoring stock immediately from reserveStock...
+[2026-07-13 17:46:04] [DEBUG] Immediately restored 2 units for Product #5 (reserveStock -> stock)
+[2026-07-13 17:46:04] [DEBUG] Cancel stock-restore committed for Order #41
+[2026-07-13 17:49:34] [Logger] Running log cleanup check. Retention limit: 30 days.
+[2026-07-13 17:49:34] [Logger] Cleanup completed. No expired log files found.
+[2026-07-13 17:49:34] [Logger] Automated log cleanup scheduler started (runs every 24 hours).
+[2026-07-13 17:49:36] [CRON] stockRestoreCron started — restores reserve stock after 1 minutes.
+[2026-07-13 17:54:17] [DEBUG] Received updatePaymentStatus request: {"orderId":42,"status":"payment_failed"}
+[2026-07-13 17:54:17] [DEBUG] Order #42 found. Current status: "awaiting_payment". Target status: "payment_failed"
+[2026-07-13 17:54:17] [DEBUG] Order #42 payment failed — restoring stock immediately from reserveStock...
+[2026-07-13 17:54:17] [DEBUG] Immediately restored 1 units for Product #5 (payment_failed)
+[2026-07-13 18:12:00] [DEBUG] Received updatePaymentStatus request: {"orderId":43,"status":"cancelled"}
+[2026-07-13 18:12:00] [DEBUG] Order #43 found. Current status: "awaiting_payment". Target status: "cancelled"
+[2026-07-13 18:12:00] [DEBUG] Cancelling Order #43 — restoring stock immediately from reserveStock...
+[2026-07-13 18:12:00] [DEBUG] Immediately restored 1 units for Product #5 (reserveStock -> stock)
+[2026-07-13 18:12:00] [DEBUG] Cancel stock-restore committed for Order #43
+[2026-07-13 18:14:18] [DEBUG] Received updatePaymentStatus request: {"orderId":44,"status":"confirmed"}
+[2026-07-13 18:14:18] [DEBUG] Order #44 found. Current status: "awaiting_payment". Target status: "confirmed"
+[2026-07-13 18:14:18] [DEBUG] Order #44 marked as confirmed (payment success)
+[2026-07-13 18:14:18] [DEBUG] Product #5 reserveStock -= 2 (permanent sale confirmed)
+[2026-07-13 18:14:18] [DEBUG] Email Dispatch for Order #44:
+[2026-07-13 18:14:18] [DEBUG] -> Customer: jayamproj@gmail.com
+[2026-07-13 18:14:18] [DEBUG] -> Admin: jayamproj@gmail.com
+[2026-07-13 18:14:21] [INFO] Compiling the template with handlebars
+[2026-07-13 18:14:31] [INFO] Email sent: <b5092147-c20f-76b9-eb35-ebd6a1acc41b@gmail.com>
+[2026-07-13 18:14:31] [DEBUG] Admin email sent successfully to jayamproj@gmail.com
+[2026-07-13 18:14:41] [INFO] Email sent: <098d48dc-b7c7-a6f5-572b-df966d682136@gmail.com>
+[2026-07-13 18:14:41] [DEBUG] Confirmation+PDF Invoice email sent to jayamproj@gmail.com (INV-ORD-0044)
+[2026-07-13 18:20:51] [Logger] Running log cleanup check. Retention limit: 30 days.
+[2026-07-13 18:20:51] [Logger] Cleanup completed. No expired log files found.
+[2026-07-13 18:20:51] [Logger] Automated log cleanup scheduler started (runs every 24 hours).
+[2026-07-13 18:20:53] [CRON] stockRestoreCron started — restores reserve stock after 1 minutes.

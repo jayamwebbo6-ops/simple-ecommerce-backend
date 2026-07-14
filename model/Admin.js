@@ -19,6 +19,56 @@ const Admin = sequelize.define('Admin', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  address: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  facebook: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  twitter: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  instagram: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  showAddress: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
+  showPhone: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
+  showSocial: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
+  showFacebook: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
+  showTwitter: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
+  showInstagram: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
   otp: {
     type: DataTypes.STRING,
     allowNull: true,
@@ -29,6 +79,7 @@ const Admin = sequelize.define('Admin', {
   }
 }, {
   timestamps: true,
+  tableName: 'admins'
 });
 
 module.exports = Admin;

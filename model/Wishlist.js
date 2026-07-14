@@ -9,6 +9,8 @@ const Wishlist = sequelize.define('Wishlist', {
     autoIncrement: true,
     primaryKey: true
   }
+}, {
+  tableName: 'wishlists'
 });
 
 // Setup relationships

@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 /* ─────────────────────────────────────────────────────────
    Shared design tokens (inline-safe for all email clients)
    ───────────────────────────────────────────────────────── */
-const FONT  = "'Times New Roman', Times, Georgia, serif";
+const FONT  = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
 const C = {
   navy:       '#0f172a',
   green:      '#16a34a',
@@ -35,15 +35,18 @@ function emailShell({ heading, body, year = new Date().getFullYear() }) {
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     body, table, td, p, a {
-      font-family: 'Times New Roman', Times, Georgia, serif !important;
-      font-size: 15px !important;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+      font-size: 14px !important;
       color: ${C.text} !important;
       line-height: 1.6 !important;
     }
     h1, h2, h3, h4, h5, h6 {
-      font-family: 'Times New Roman', Times, Georgia, serif !important;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
       color: ${C.navy} !important;
       font-weight: bold !important;
     }
