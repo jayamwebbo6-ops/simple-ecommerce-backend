@@ -1,5 +1,5 @@
 const express = require('express');
-const { sendOtp, verifyOtp, googleAuth, getProfile, updateProfile, updateProfilePicture, adminLogin, getAdminProfile, updateAdminProfile, updateAdminProfilePicture, adminForgotPassword, adminResetPassword, submitContact, getAdminContactInfo } = require('../controller/authController');
+const { sendOtp, verifyOtp, googleAuth, getProfile, updateProfile, updateProfilePicture, adminLogin, adminSendOtp, adminVerifyOtp, getAdminProfile, updateAdminProfile, updateAdminProfilePicture, adminForgotPassword, adminResetPassword, submitContact, getAdminContactInfo } = require('../controller/authController');
 const authMiddleware = require('../middleware/authMiddleware');
 const uploadMiddleware = require('../middleware/uploadMiddleware');
 const router = express.Router();
@@ -14,11 +14,14 @@ router.post('/profile/picture', authMiddleware, uploadMiddleware.single('image')
 
 // Admin routes
 router.post('/admin/login', adminLogin);
+router.post('/admin/send-otp', adminSendOtp);
+router.post('/admin/verify-otp', adminVerifyOtp);
 router.get('/admin/profile', authMiddleware, getAdminProfile);
 router.put('/admin/profile', authMiddleware, updateAdminProfile);
 router.post('/admin/profile/picture', authMiddleware, uploadMiddleware.single('image'), updateAdminProfilePicture);
 router.post('/admin/forgot-password', adminForgotPassword);
 router.post('/admin/reset-password', adminResetPassword);
+
 
 // Public settings routes
 router.get('/admin/contact-info', getAdminContactInfo);

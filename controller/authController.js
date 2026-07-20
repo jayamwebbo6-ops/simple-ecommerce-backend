@@ -464,6 +464,71 @@ exports.adminResetPassword = async (req, res) => {
   }
 };
 
+exports.adminSendOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ message: "Email is required" });
+
+    const admin = await Admin.findOne({
+      where: {
+        [Op.or]: [{ email: email }, { name: email }],
+      },
+    });
+
+    if (!admin)
+      return res.status(404).json({ message: "Admin account not found with this email or username" });
+
+    const otp = generateOTP();
+    admin.otp = otp;
+    admin.otpExpiry = new Date(Date.now() + 5 * 60 * 1000); // 5 mins
+    await admin.save();
+
+    await sendOTPEmail(admin.email, otp);
+    log(`[DEVELOPMENT] Admin OTP sent to ${admin.email}: ${otp}`);
+
+    res.json({ message: "OTP sent successfully to admin email!" });
+  } catch (error) {
+    console.error("Admin send OTP error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.adminVerifyOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) return res.status(400).json({ message: "Email and OTP are required" });
+
+    const admin = await Admin.findOne({
+      where: {
+        [Op.or]: [{ email: email }, { name: email }],
+      },
+    });
+
+    if (!admin) return res.status(404).json({ message: "Admin not found" });
+
+    if (!admin.otp || admin.otp !== otp || admin.otpExpiry < new Date()) {
+      return res.status(400).json({ message: "Invalid or expired OTP" });
+    }
+
+    // Clear OTP
+    admin.otp = null;
+    admin.otpExpiry = null;
+    await admin.save();
+
+    const token = jwt.sign(
+      { id: admin.id, email: admin.email, role: "admin" },
+      process.env.JWT_SECRET || "fallback_secret_key",
+      { expiresIn: "1d" }
+    );
+
+    res.json({ message: "Admin authenticated successfully", token });
+  } catch (error) {
+    console.error("Admin verify OTP error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
 exports.submitContact = async (req, res) => {
   try {
     const { firstName, lastName, email, message } = req.body;
